@@ -47,7 +47,7 @@ public class EmpregadoRest {
 	@GET
 	@Path("/inativos")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listarInativos() throws Exception {
+	public Response listarEmpregadosInativos() throws Exception {
 		List<Empregado> lista = Banco.listarEmpregados();
 		List<Empregado> desligados = new ArrayList<>();
 		
