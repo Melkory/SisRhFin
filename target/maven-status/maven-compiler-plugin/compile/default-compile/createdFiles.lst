@@ -1,0 +1,6 @@
+sisrh\dto\Empregado.class
+sisrh\banco\Banco.class
+sisrh\servlet\InicializarBancoServlet.class
+sisrh\dto\Solicitacao.class
+sisrh\dto\Usuario.class
+soap\ServicoBasico.class
