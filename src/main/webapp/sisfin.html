@@ -21,7 +21,25 @@
 	<h3>Folha de Pagamento </h3> 
 	<button v-on:click="listarEmpregados">Calcular Folha</button> 
 	
+	<h3>Buscar Empregados Ativos</h3> 
+	<button v-on:click="listarEmpregadosAtivos">Buscar Ativos</button> 
+	
 	<div style="color: red">{{errorMessage}}</div> 
+	
+	<div v-if="totalEmpAtivos > 0"> 
+		<hr/> 
+		<div  style="color: blue">Total de Empregados Ativos: {{ totalEmpAtivos }}</div> 
+		
+		<hr/> 
+		<h3>Lista de Empregados </h3> 
+		
+		<ul id="example-2"> 
+			 <li v-for="empregado in listaEmpregadoAtivo" :key="empregado.matricula"> 
+			 	 {{ empregado.nome }}
+			 </li> 
+		</ul>
+		<hr/> 
+	</div> 
 	
 	<div  v-if="totalFolha > 0"> 
 		<hr/> 
@@ -49,7 +67,8 @@
 			senha : '123456',
 			tokenJWT: 'vazio',
 			errorMessage : "",
-			listaEmpregado: []
+			listaEmpregado: [],
+			listaEmpregadoAtivo: []
 		},
 		methods: {
 			login: function (event) {
@@ -72,6 +91,14 @@
 				 		this.errorMessage = error.message;
 				 		console.error("There was an error!", error);
 				 	});
+			},
+			listarEmpregadosAtivos: function (event) {
+				axios.get(this.url + '/empregado/ativos', { 'headers': { 'jwt': this.tokenJWT } })
+			 	.then(response => this.listaEmpregadoAtivo = response.data)
+			 	.catch(error => {
+			 		this.errorMessage = error.message;
+			 		console.error("There was an error!", error);
+			 	});
 			}
 		},
 		computed: {
@@ -82,6 +109,9 @@
 			},
 			totalEmpregados: function () {
 				return this.listaEmpregado.length;
+			},
+			totalEmpAtivos: function () {
+				return this.listaEmpregadoAtivo.length;
 			}
 		}
 	})

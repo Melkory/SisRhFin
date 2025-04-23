@@ -1,5 +1,6 @@
 package sisrh.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -22,6 +23,42 @@ import sisrh.dto.Empregado;
 @Api
 @Path("/empregado")
 public class EmpregadoRest {
+	
+	@GET
+	@Path("/ativos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarEmpregadosAtivos() throws Exception {
+		List<Empregado> lista = Banco.listarEmpregados();
+		List<Empregado> ativos = new ArrayList<>();
+
+		for (Empregado emp : lista) {
+			if (emp.getDesligamento() == null) {
+				ativos.add(emp);
+			}
+		}
+		
+		System.out.println("Total de empregados encontrados: " + lista.size());
+		System.out.println("Total de ativos encontrados: " + ativos.size());
+		
+		GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(ativos) {};
+		return Response.ok().entity(entity).build();
+	}
+
+	@GET
+	@Path("/inativos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarInativos() throws Exception {
+		List<Empregado> lista = Banco.listarEmpregados();
+		List<Empregado> desligados = new ArrayList<>();
+		
+		for (Empregado emp : lista) {
+			if (emp.getDesligamento() != null) {
+				desligados.add(emp);
+			}
+		}
+		GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(desligados) {};
+		return Response.ok().entity(entity).build();
+	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
