@@ -2,7 +2,9 @@ package sisrh.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,6 +43,18 @@ public class UsuariosRest {
 			}
 		} catch (Exception e) {
 				return Response.status(Status.INTERNAL_SERVER_ERROR).entity("{ \"mensagem\" : \"Falha para obter usuario!\" }").build();
+		}
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response incluirUsuario (Usuario user) throws Exception {
+		try {
+			Usuario usuario = Banco.incluirUsuario(user);
+			return Response.ok().entity(usuario).build();
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("{ \"mensagem\" : \"Falha para incluir usuario!\" }").build();
 		}
 	}
 
