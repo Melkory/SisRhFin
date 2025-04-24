@@ -30,6 +30,7 @@ public class AppRest extends Application {
 		resources.add(ApiListingResource.class);
 		resources.add(SwaggerSerializers.class);
 		resources.add(LoginUnicoRest.class);
+		resources.add(UsuariosRest.class);
 		return resources;
 	}
 }
